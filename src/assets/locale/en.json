@@ -12,7 +12,12 @@
   "end_date": "End Date",
   "legend": {
     "title": "Legend",
-    "report": "Flood report",
+    "earthquake": "Earthquake",
+    "haze": "Haze",
+    "wind": "Wind",
+    "fire": "Fire",
+    "volcano": "Volcano",
+    "flood": "Flood",
     "level_1": "Alert Level 1",
     "level_2": "Alert Level 2",
     "level_3": "Alert Level 3",
@@ -21,6 +26,7 @@
   "chart_menu": {
     "activity": "Reporting activity",
     "source": "Reporting source",
+    "jakarta": "Reporting jakarta",
     "generate_button": "Generate Report"
   },
   "note": "Note: The number of flooded areas does not mean the whole area is flooded. It shows that there are floods happening within those counted areas",
@@ -34,12 +40,14 @@
     "areas": "Flood affected areas"
   },
   "report": {
-    "report_title": "Flood Report",
+    "report_title": "Disaster Reports",
+    "jakarta_report_title": "Flood Report",
     "time_period": "Time period",
     "start": "Start",
     "end": "End",
     "last_updated":"Last RW status update:",
-    "current_time": "Report generated on:"
+    "current_time": "Report generated on:",
+    "total_report": "Total Reports"
   },
   "table": {
     "district": "District",
@@ -52,7 +60,15 @@
       "fs2": "Minor: 10-70cm",
       "fs3": "Moderate: 71-150cm",
       "fs4": "Severe: Greater than 150cm"
-    }
+    },
+    "province": "Province",
+    "flood": "Flood Reports",
+    "earthquake": "Earthquake Reports",
+    "wind": "Wind Reports",
+    "haze": "Haze Reports",
+    "fire": "Fire Reports",
+    "volcano": "Volcano Reports",
+    "disaster": "Total Disaster / Province"
   },
   "print_button": "Print"
 }

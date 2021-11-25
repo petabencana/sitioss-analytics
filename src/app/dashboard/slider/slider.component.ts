@@ -5,6 +5,7 @@ import { HttpService } from '../../services/http.service';
 import { LayersService } from '../../services/layers.service';
 import { TimeService } from '../../services/time.service';
 import { TableService } from '../../services/table.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-slider',
@@ -67,6 +68,33 @@ export class SliderComponent implements OnInit {
     const start = this.timeService.getMilliseconds(range.start);
     const end = this.timeService.getMilliseconds(range.end);
 
+    let regions = [];
+    let disaster = {
+      floodCount: 0,
+      earthquakeCount: 0,
+      windCount: 0,
+      hazeCount: 0,
+      fireCount: 0,
+      volcanoCount: 0,
+      totalCount: 0
+    };
+
+    for (let i = 0; i < environment.region_name.length; i++) {
+      const regionCounts = this.layersService.getDisasterCount(
+        this.map,
+        {start: start, end: end},
+        environment.instance_region[i]
+      );
+      regions.push(this.makeRegionReports(i, regionCounts));
+      disaster.floodCount += regionCounts.aggregates.flood;
+      disaster.earthquakeCount += regionCounts.aggregates.earthquake;
+      disaster.windCount += regionCounts.aggregates.wind;
+      disaster.hazeCount += regionCounts.aggregates.haze;
+      disaster.fireCount += regionCounts.aggregates.fire;
+      disaster.volcanoCount += regionCounts.aggregates.volcano;
+    }
+    disaster.totalCount = disaster.floodCount + disaster.earthquakeCount + disaster.windCount + disaster.hazeCount + disaster.fireCount + disaster.volcanoCount;
+
     const counts = this.layersService.getReportsCount(
       this.map,
       {start: start, end: end},
@@ -90,10 +118,26 @@ export class SliderComponent implements OnInit {
 
     // Update districts with reports count breakdown
     this.tableService.districts = counts.districts;
+    this.tableService.regions = regions;
+    this.tableService.totalDisaster = disaster;
   }
 
-  updateReports(range): void {
-    this.httpService.getReportsArchive(range)
+  makeRegionReports(i, count): Object {
+    const district = {
+      name: environment.region_name[i],
+      floodCount: count.aggregates.flood,
+      earthquakeCount: count.aggregates.earthquake,
+      windCount: count.aggregates.wind,
+      hazeCount: count.aggregates.haze,
+      fireCount: count.aggregates.fire,
+      volcanoCount: count.aggregates.volcano,
+      areaCount: count.aggregates.total
+    }
+    return district;  
+  }
+
+  updateReports(range, region): void {
+    this.httpService.getReportsArchive(range, region)
     .then(geojsonData => {
       // pass to map, charts & stats
       this.reports = this.timeService.formatTimestamp(geojsonData);
@@ -151,7 +195,13 @@ export class SliderComponent implements OnInit {
     });
   }
 
-  dateInteraction(type: string, event: any, isInitializing: boolean) {
+  updateStats(region) {
+    this.refreshingStats.reports = true;
+    this.updateReports(this.timeService.selectedDateRange, region);
+    this.updateFloodAreas(this.timeService.selectedDateRange);
+  }
+
+  dateInteraction(type: string, event: any, isInitializing: boolean, region: string) {
     // Disable dependent components
     this.refreshingLayers = {reports: true, floodAreas: true};
     this.generatingTableData = true;
@@ -171,7 +221,7 @@ export class SliderComponent implements OnInit {
     // Set knob positions to full scale
     this.resetKnobs();
 
-    this.updateReports(this.timeService.selectedDateRange);
+    this.updateReports(this.timeService.selectedDateRange, region);
     this.updateFloodAreas(this.timeService.selectedDateRange);
 
     // Inject timeService in charts, don't pass
@@ -195,7 +245,7 @@ export class SliderComponent implements OnInit {
     };
 
     // Trigger get reports, flood areas, draw charts
-    this.dateInteraction('end', event, true);
+    this.dateInteraction('end', event, true, '');
   }
 
   updateRange(range) {

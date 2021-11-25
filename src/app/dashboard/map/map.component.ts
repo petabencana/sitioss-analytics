@@ -28,9 +28,10 @@ export class MapComponent implements OnInit {
     self.map = new mapboxgl.Map({
       attributionControl: false,
       container: 'mapContainer',
-      center: [106.86, -6.17],
-      zoom: 11,
-      minZoom: 10,
+      //[106.86, -6.17]
+      center: [120, -2],
+      zoom: 4.5,
+      minZoom: 4.5,
       style: 'mapbox://styles/mapbox/streets-v8',
       hash: false,
       preserveDrawingBuffer: true
@@ -38,10 +39,9 @@ export class MapComponent implements OnInit {
     // Add zoom and rotation controls to the map.
     self.map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-
     self.map.on('style.load', () => {
       // Load neighborhood polygons
-      self.httpService.getFloodAreas(env.instance_region)
+      self.httpService.getFloodAreas(env.instance_region[12])
       .then(geojsonData => {
         self.floodAreas = geojsonData;
         self.layersService.loadFloodAreas(self.floodAreas, self.map)
