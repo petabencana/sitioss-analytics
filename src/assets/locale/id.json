@@ -11,15 +11,19 @@
   "end_date": "Tanggal Akhir",
   "legend": {
     "title": "Legenda",
-    "report": "Laporan Banjir",
-    "level_1": "Hati-hati",
-    "level_2": "Siaga 3",
-    "level_3": "Siaga 2",
-    "level_4": "Siaga 1"
+    "flood": "Laporan Banjir",
+    "wind": "Laporan Angin Kencang",
+    "haze": "Laporan Kabut",
+    "fire": "Laporan Kebakaran",
+    "earthquake": "Laporan Gempa",
+    "volcano": "Laporan Gunung Meletus",
+    "search": "Cari lokasi"
   },
   "chart_menu": {
+    "details": "Laporan Bencana Analitik",
     "activity": "Aktivitas Pelaporan",
     "source": "Sumber Laporan",
+    "disaster": "Laporan Bencana",
     "generate_button": "Buat Ringkasan"
   },
   "note": "Catatan: Angka RW terdampak banjir tidak berarti seluruh wilayah dalam RW tersebut tergenang banjir. Ini menunjukkan terdapat banjir dalam sejumlah RW tersebut.",
