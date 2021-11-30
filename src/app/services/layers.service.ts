@@ -19,7 +19,23 @@ export class LayersService {
         data: reportsGeojson
       },
       paint: {
-        'circle-color': '#31aade',
+          'circle-color': [
+          'match',
+          ['get', 'disaster_type'],
+          'flood',
+          '#31aade',
+          'haze',
+          '#99bfb3',
+          'earthquake',
+          '#f2bf07',
+          'wind',
+          '#d3ede5',
+          'volcano',
+          '#a10202',
+          'fire',
+          '#f23a07',
+          /* other */ '#ccc'
+          ],
         'circle-radius': 4,
         'circle-stroke-width': 1,
         'circle-stroke-color': '#ffffff'
