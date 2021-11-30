@@ -11,8 +11,8 @@
 <div id="activityWrapper" class="charts">
   <app-activity-chart
     *ngIf="(reportsData.length || floodsData.length) && selectedChart==='activity'"
-    [reportsData]="reportsData"
     [floodsData]="floodsData"
+    [reportsData]="reportsData"
     [scaleLimits]="scaleLimits">
   </app-activity-chart>
 </div>
@@ -22,4 +22,12 @@
     *ngIf="(reportsSource && reportsSource.aggregates.length) && selectedChart==='source'"
     [reportsSource]="reportsSource">
   </app-source-chart>
+</div>
+
+<div id="disasterWrapper" class="charts">
+  <app-disaster-chart
+    *ngIf="(disastersData || disastersData.length) && selectedChart==='disaster'"
+    [disastersData]="disastersData"
+    [scaleLimits]="scaleLimits">
+  </app-disaster-chart>
 </div>
