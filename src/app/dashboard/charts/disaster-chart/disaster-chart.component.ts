@@ -125,6 +125,11 @@ export class DisasterChartComponent implements OnInit, OnChanges {
         title: {
           display: false
         },
+        elements: {
+          line: {
+              tension: 0.2, // disables bezier curves
+          }
+        },
         legend: {
           display: true,
           position: 'top',
