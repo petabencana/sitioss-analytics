@@ -113,7 +113,7 @@ export class SliderComponent implements OnInit {
         counts.aggregates.grasp,
         counts.aggregates.detik
       ],
-      labels: ['Qlue', 'Grasp (Social media)', 'PasangMata.com']
+      labels: ['Qlue', 'Grasp (Social Media & Website)', 'PasangMata.com']
     };
 
     // Update districts with reports count breakdown
