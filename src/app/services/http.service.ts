@@ -113,8 +113,7 @@ export class HttpService {
     }[]> {
     const endpoint = environment.data_server + dataType + '/timeseries?start='
       + timePeriod.start + '&end='
-      + timePeriod.end + '&admin='
-      + environment.instance_region[12];
+      + timePeriod.end;
 
     return new Promise((resolve, reject) => {
       this.http
