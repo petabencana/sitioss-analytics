@@ -5,6 +5,7 @@ import * as $ from 'jquery';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpService } from '../../services/http.service';
 import { TableService } from '../../services/table.service';
+import { TimeService } from '../../services/time.service';
 
 @Component({
   selector: 'app-charts',
@@ -32,7 +33,8 @@ export class ChartsComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private translate: TranslateService,
-    private tableService: TableService
+    private tableService: TableService,
+    private timeservice: TimeService
   ) {
     this.chartTypes = [
       {id: 'activity', class: 'tabButton selected', center: [120, -2], zoom: 4.5},
@@ -70,40 +72,36 @@ export class ChartsComponent implements OnInit {
     this.updateStats.emit(region);
   }
 
+  async loadData(data, timeseries) {
+    let response = await(timeseries)
+
+    for (const report of response) {
+      data.push({
+        t: report.ts,
+        y: report.count
+      });
+    }
+  }
+
   prepareActivityData(timePeriod) {
     this.reportsData = [];
     this.floodsData = [];
     this.jakartaData = [];
-    this.httpService.getTimeseries('reports', timePeriod)
-    .then(reports => {
-      this.httpService.getTimeseries('floods', timePeriod)
-      .then(floods => {
-        this.httpService.getJakartaTimeseries(timePeriod)
-        .then(jakarta => {
-          for (const report of reports) {
-            this.reportsData.push({
-              t: report.ts,
-              y: report.count
-            });
-          }
 
-          for (const area of floods) {
-            this.floodsData.push({
-              t: area.ts,
-              y: area.count
-            });
+    this.loadData(this.reportsData, this.httpService.getTimeseries('reports', timePeriod))
+    .catch(error => console.log(error));
+    this.loadData(this.floodsData, this.httpService.getTimeseries('floods', timePeriod))
+    .catch(error => console.log(error));
+    this.httpService.getReportsArchive(this.timeservice.selectedDateRange, timePeriod)
+    .then(geojsonData => {
+      const dataTS = this.timeservice.dataAnalysis
+      for (let i = 0; i < dataTS.length-1; i++) {
+        for (const data of geojsonData.features) {
+          if (data.properties.created_at >= dataTS[i].ts && data.properties.created_at < dataTS[(i+1)%dataTS.length].ts) {
+            dataTS[i].count += 1
           }
-
-          for (const report of jakarta) {
-            this.jakartaData.push({
-              t: report.ts,
-              y: report.count
-            });
-          }
-        })
-        .catch(error => console.log(error));
-      })
-      .catch(error => console.log(error));
+        }
+      }
     })
     .catch(error => console.log(error));
   }
