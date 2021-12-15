@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as styles from '../../styles.scss';
 
 @Injectable()
 export class LayersService {
@@ -19,7 +20,23 @@ export class LayersService {
         data: reportsGeojson
       },
       paint: {
-        'circle-color': '#31aade',
+          'circle-color': [
+          'match',
+          ['get', 'disaster_type'],
+          'flood',
+          styles["colors-flood"],
+          'haze',
+          styles["colors-haze"],
+          'earthquake',
+          styles["colors-earthquake"],
+          'wind',
+          styles["colors-wind"],
+          'volcano',
+          styles["colors-volcano"],
+          'fire',
+          styles["colors-fire"],
+          '#ccc'
+          ],
         'circle-radius': 4,
         'circle-stroke-width': 1,
         'circle-stroke-color': '#ffffff'

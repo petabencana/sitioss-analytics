@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
+import { TranslateService } from '@ngx-translate/core';
 import { LayersService } from '../../services/layers.service';
 import { HttpService } from '../../services/http.service';
 import { environment as env } from '../../../environments/environment';
@@ -17,9 +19,16 @@ export class MapComponent implements OnInit {
   @Output() map: mapboxgl.Map;
   @Output() finishedLoading = new EventEmitter();
 
+  isShown: boolean;
+
+  toggleShow() {
+    this.isShown = ! this.isShown;
+  }
+
   constructor(
     private layersService: LayersService,
-    private httpService: HttpService
+    private translate: TranslateService,
+    private httpService: HttpService,
   ) { }
 
   ngOnInit() {
@@ -28,18 +37,36 @@ export class MapComponent implements OnInit {
     self.map = new mapboxgl.Map({
       attributionControl: false,
       container: 'mapContainer',
-      center: [106.86, -6.17],
-      zoom: 11,
-      minZoom: 10,
+      center: [120, -2],
+      zoom: 4.5,
       style: 'mapbox://styles/mapbox/streets-v8',
       hash: false,
       preserveDrawingBuffer: true
     });
     // Add zoom and rotation controls to the map.
-    self.map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      self.map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
+      const data = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        placeholder: this.translate.get('legend.search')['value'],
+        mapboxgl: mapboxgl,
+        countries: 'id', 
+        bbox: [94.9106962020671,
+                -11.1074231973731,
+                141.029649999987,
+                6.17575589605682],
+        zoom: 11,
+        marker: false,
+        proximity: {
+        longitude: -2,
+        latitude: 120
+        },
+      });
+
+    document.getElementById('geocoder').appendChild(data.onAdd(self.map));
 
     self.map.on('style.load', () => {
+      
       // Load neighborhood polygons
       self.httpService.getFloodAreas(env.instance_region)
       .then(geojsonData => {

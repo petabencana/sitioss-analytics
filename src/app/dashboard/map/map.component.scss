@@ -3,3 +3,11 @@
 #mapContainer {
   height: 100%;
 }
+
+.geocoder {
+  position: absolute;
+  z-index: 4;
+  width: 60%;
+  left: 10px;
+  top: 10px;
+}

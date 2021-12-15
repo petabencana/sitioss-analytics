@@ -28,6 +28,14 @@ $snow-white: #ffffff;
 $banjir-blue: mat-color($mat-light-blue, 500);
 $bencana-red: #c1272d;
 
+//Legend Variables_
+$colors-flood: #31aade;
+$colors-haze: #99bfb3;
+$colors-earthquake: #f2bf07;
+$colors-wind: #d3ede5;
+$colors-volcano: #a10202;
+$colors-fire: #f23a07;
+
 //_Font styles Variables_
 @mixin textlight($var, $col) {
   font-family: "Roboto Light", "Roboto", "Open Sans";
@@ -52,4 +60,17 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
+}
+
+@mixin rule($key, $value) {
+  #{$key}: $value;
+}
+
+:export {  
+  @include rule("colors-flood", $colors-flood);
+  @include rule("colors-haze", $colors-haze);
+  @include rule("colors-earthquake", $colors-earthquake);
+  @include rule("colors-wind", $colors-wind);
+  @include rule("colors-volcano", $colors-volcano);
+  @include rule("colors-fire", $colors-fire);
 }

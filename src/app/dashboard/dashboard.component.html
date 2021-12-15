@@ -11,47 +11,56 @@
 </div>
 
 <div id="sliderWrapper">
-  <app-slider
-    [map]="map.map"
-    [floodAreas]="map.floodAreas"
-    (drawChart)="chart.drawChart($event)"
-    (updateChart)="chart.updateChart($event)"
-    (updateChartScale)="chart.updateScale($event)"
-    #slider>
-  </app-slider>
-</div>
+    <app-slider
+      [map]="map.map"
+      [floodAreas]="map.floodAreas"
+      (drawChart)="chart.drawChart($event)"
+      (updateChart)="chart.updateChart($event)"
+      (updateChartScale)="chart.updateScale($event)"
+      #slider>
+    </app-slider>
+  </div> 
 
-<div id="analyticsWrapper">
-  <div id="chartsWrapper">
-    <app-charts
-      [reportsSource]="slider.reportsSource"
-      #chart>
-    </app-charts>
-  </div>
+ <div id="analyticsWrapper" class="panel">
+   <details>
+    <summary>
+      {{ 'chart_menu.details' | translate }}
+   </summary>
 
-  <div id="statsWrapper">
-    <div id="reportTools">
-      <a
-        *ngIf="!slider.generatingTableData && slider.reports"
-        class="mat-body-1"
-        [routerLink]="['/report']"
-        [queryParams]="{
-          updated: slider.lastAreaUpdate
-        }">
-        {{ 'chart_legend.generate_button' | translate }}
-      </a>
-      <mat-spinner
-        id="spinner"
-        diameter="26"
-        color="accent"
-        *ngIf="!slider.reports || slider.generatingTableData">
-      </mat-spinner>
+    <div class="content">
+      <div id="chartsWrapper">
+        <app-charts
+          [reportsSource]="slider.reportsSource"
+          #chart>
+        </app-charts>
+      </div>
+
+      <div id="statsWrapper">
+        <div id="reportTools">
+          <a
+            *ngIf="!slider.generatingTableData && slider.reports"
+            class="mat-body-1"
+            [routerLink]="['/report']"
+            [queryParams]="{
+              updated: slider.lastAreaUpdate
+            }">
+            {{ 'chart_legend.generate_button' | translate }}
+          </a>
+      
+          <mat-spinner
+            id="spinner"
+            diameter="26"
+            color="accent"
+            *ngIf="!slider.reports || slider.generatingTableData">
+          </mat-spinner>
+        </div>
+
+        <app-stats
+          [isRefreshing]="slider.refreshingStats.reports || slider.refreshingStats.floodAreas"
+          [floodAreasCount]="slider.floodAreasCount"
+          [reportsCount]="slider.reportsCount">
+        </app-stats>
+      </div>
     </div>
-
-    <app-stats
-      [isRefreshing]="slider.refreshingStats.reports || slider.refreshingStats.floodAreas"
-      [floodAreasCount]="slider.floodAreasCount"
-      [reportsCount]="slider.reportsCount">
-    </app-stats>
-  </div>
-</div>
+  </details>
+</div>    

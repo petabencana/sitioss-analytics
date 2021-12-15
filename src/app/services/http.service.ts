@@ -49,13 +49,15 @@ export class HttpService {
         type: string,
         coordinates: number[]
       },
-      properties: object
+      properties: {
+        created_at: string
+        disaster_type: string,
+      }
     }[]
   }> {
     const endpoint = environment.data_server + 'reports/archive?start='
       + timePeriod.start + '&end='
-      + timePeriod.end + '&admin='
-      + environment.instance_region;
+      + timePeriod.end;
 
     return new Promise((resolve, reject) => {
       this.http

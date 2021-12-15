@@ -33,5 +33,14 @@
     & .alert2 { background-color: #ffff00; }
     & .alert3 { background-color: #ff8300; }
     & .alert4 { background-color: #cc2a41; }
+
+    // disaster colors
+    & .flood { color: $colors-flood; }
+    & .haze { color: $colors-haze; }
+    & .wind { color: $colors-wind; }
+    & .earthquake { color: $colors-earthquake; }
+    & .volcano { color: $colors-volcano; }
+    & .fire { color: $colors-fire; }
+    
   }
 }
