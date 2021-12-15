@@ -2,8 +2,8 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import * as Chart from 'chart.js';
 import * as $ from 'jquery';
 import { TranslateService } from '@ngx-translate/core';
-
 import { TimeService } from '../../../services/time.service';
+import settings from '../settings'
 
 @Component({
   selector: 'app-activity-chart',
@@ -45,10 +45,10 @@ export class ActivityChartComponent implements OnInit, OnChanges {
             label: this.translate.get('chart_legend.count')['value'],
             xAxisId: 'x1',
             yAxisId: 'y1',
-            borderWidth: 2,
-            borderColor: '#31aade',
-            backgroundColor: 'rgba(49, 170, 222, 0.1)',
-            pointRadius: 0,
+            borderWidth: settings.border.width,
+            borderColor: settings.border.color,
+            backgroundColor: settings.backgroundColor.blue,
+            pointRadius: settings.border.pointRadius,
             data: this.reportsData
           },
         ]
@@ -63,8 +63,8 @@ export class ActivityChartComponent implements OnInit, OnChanges {
           display: true,
           position: 'top',
           labels: {
-            fontColor: '#d0d0d0',
-            fontFamily: '"Roboto-Medium", "Roboto", "Open Sans"'
+            fontColor: settings.font.color,
+            fontFamily: settings.font.family
           }
         },
         scales: {
@@ -73,8 +73,8 @@ export class ActivityChartComponent implements OnInit, OnChanges {
             type: 'linear',
             position: 'left',
             ticks: {
-              fontColor: '#d0d0d0',
-              fontFamily: '"Roboto-Medium", "Roboto", "Open Sans"'
+              fontColor: settings.font.color,
+              fontFamily: settings.font.family
             }
           }],
           xAxes: [{
@@ -94,8 +94,8 @@ export class ActivityChartComponent implements OnInit, OnChanges {
             ticks: {
               autoSkip: true,
               autoSkipPadding: 12,
-              fontColor: '#d0d0d0',
-              fontFamily: '"Roboto Light", "Roboto", "Open Sans"'
+              fontColor: settings.font.color,
+              fontFamily: settings.font.family
             }
           },
           {
@@ -118,8 +118,8 @@ export class ActivityChartComponent implements OnInit, OnChanges {
             ticks: {
               autoSkip: true,
               autoSkipPadding: 12,
-              fontColor: '#d0d0d0',
-              fontFamily: '"Roboto Medium", "Roboto", "Open Sans"'
+              fontColor: settings.font.color,
+              fontFamily: settings.font.family
             }
           }
         ],

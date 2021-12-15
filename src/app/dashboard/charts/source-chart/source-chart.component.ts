@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import * as Chart from 'chart.js';
 import * as $ from 'jquery';
+import settings from '../settings'
 
 @Component({
   selector: 'app-source-chart',
@@ -36,9 +37,9 @@ export class SourceChartComponent implements OnInit, OnChanges {
           data: this.reportsSource.aggregates,
           borderWidth: [1, 1, 1],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.7)',
-            'rgba(49, 170, 222, 0.7)',
-            'rgba(255, 206, 86, 0.7)'
+            settings.backgroundColor.pink,
+            settings.backgroundColor.blue,
+            settings.backgroundColor.yellow
           ]
         }],
         labels: this.reportsSource.labels,
@@ -48,8 +49,8 @@ export class SourceChartComponent implements OnInit, OnChanges {
           display: true,
           position: 'left',
           labels: {
-            fontColor: '#d0d0d0',
-            fontFamily: '"Roboto-Medium", "Roboto", "Open Sans"'
+            fontColor: settings.font.color,
+            fontFamily: settings.font.family
           }
         }
       }

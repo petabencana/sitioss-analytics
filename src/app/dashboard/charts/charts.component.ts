@@ -92,6 +92,7 @@ export class ChartsComponent implements OnInit {
     .catch(error => console.log(error));
     this.loadData(this.floodsData, this.httpService.getTimeseries('floods', timePeriod))
     .catch(error => console.log(error));
+    
     this.httpService.getReportsArchive(this.timeservice.selectedDateRange, timePeriod)
     .then(geojsonData => {
       const dataTS = this.timeservice.dataAnalysis
