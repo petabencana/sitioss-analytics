@@ -51,7 +51,9 @@ export class HttpService {
         type: string,
         coordinates: number[]
       },
-      properties: object
+      properties: {
+        created_at: string
+      }
     }[]
   }> {
     const endpoint = environment.data_server + 'reports/archive?start='
@@ -121,44 +123,6 @@ export class HttpService {
       .subscribe(response => {
         if (response['statusCode'] === 200) {
           resolve(response['result']);
-        } else {
-          reject(response);
-        }
-      });
-    });
-  }
-
-  getJakartaTimeseries(
-    timePeriod: {
-      start: string,
-      end: string
-    }): Promise<{
-      ts: string,
-      count: number
-    }[]> {
-    const endpoint = environment.data_server + 'reports/archive?start='
-      + timePeriod.start + '&end='
-      + timePeriod.end + '&admin='
-      + environment.instance_region[12];
-
-    return new Promise((resolve, reject) => {
-      this.http
-      .get(endpoint)
-      .subscribe(response => {
-        if (response['statusCode'] === 200) {
-          const topojsonData = response['result'];
-          if (topojsonData && topojsonData.objects) {
-            const geojsonData = topojson.feature(topojsonData, topojsonData.objects.output);
-            const dataTS = this.timeservice.dataAnalysis
-            for (let i = 0; i < dataTS.length-1; i++) {
-              for (const data of geojsonData.features) {
-                if (data.properties.created_at >= dataTS[i].ts && data.properties.created_at < dataTS[(i+1)%dataTS.length].ts) {
-                  dataTS[i].count += 1
-                }
-              }
-            }
-            resolve(dataTS);
-          }
         } else {
           reject(response);
         }
