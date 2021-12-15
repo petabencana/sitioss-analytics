@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import { TranslateService } from '@ngx-translate/core';
 
 import { TimeService } from '../../../services/time.service';
+import * as styles from '../../../../styles.scss';
 
 @Component({
   selector: 'app-disaster-chart',
@@ -13,12 +14,18 @@ import { TimeService } from '../../../services/time.service';
 export class DisasterChartComponent implements OnInit, OnChanges {
   disasterChart: Chart;
   @Input() scaleLimits: {max: number, min: number};
-  @Input() disastersData: {key: string, data:[{t: string, y: number}]}[] = [];
+  @Input() disastersData: {key: string, data:[{t: string, y: number}]}[];
+  
+  flood: {t: string, y: number};
+  haze: {t: string, y: number};
+  wind: {t: string, y: number};
+  earthquake: {t: string, y: number};
+  fire: {t: string, y: number};
+  volcano: {t: string, y: number};
 
   constructor(
     private translate: TranslateService,
-    private timeService: TimeService,
-    // private translate: TranslateService
+    private timeService: TimeService
   ) { }
 
   prepareCanvas() {
@@ -35,25 +42,25 @@ export class DisasterChartComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    for (var j in this.disastersData) {
-      for (var i in this.disastersData[j]) {
+    for (let j in this.disastersData) {
+      for (let i in this.disastersData[j]) {
         if (this.disastersData[j][i].key == 'flood') {
-          var flood = this.disastersData[j][i].data;
+          this.flood = this.disastersData[j][i].data;
         }
         if (this.disastersData[j][i].key == 'wind') {
-          var wind = this.disastersData[j][i].data;
+          this.wind = this.disastersData[j][i].data;
         }
         if (this.disastersData[j][i].key == 'haze') {
-          var haze = this.disastersData[j][i].data;
+          this.haze = this.disastersData[j][i].data;
         }
         if (this.disastersData[j][i].key == 'earthquake') {
-          var earthquake = this.disastersData[j][i].data;
+          this.earthquake = this.disastersData[j][i].data;
         }
         if (this.disastersData[j][i].key == 'fire') {
-          var fire = this.disastersData[j][i].data;
+          this.fire = this.disastersData[j][i].data;
         }
         if (this.disastersData[j][i].key == 'volcano') {
-          var volcano = this.disastersData[j][i].data;
+          this.volcano = this.disastersData[j][i].data;
         }
       }
     } 
@@ -68,54 +75,54 @@ export class DisasterChartComponent implements OnInit, OnChanges {
             xAxisId: 'x1',
             yAxisId: 'y1',
             borderWidth: 2,
-            borderColor: '#31aade',
+            borderColor: styles["colors-flood"],
             pointRadius: 2,
-            data: flood
+            data: this.flood
           },
           {
             label: this.translate.get('legend.haze')['value'],
             xAxisId: 'x1',
             yAxisId: 'y1',
             borderWidth: 2,
-            borderColor: '#99bfb3',
+            borderColor: styles["colors-haze"],
             pointRadius: 2,
-            data: haze
+            data: this.haze
           },
           {
             label: this.translate.get('legend.earthquake')['value'],
             xAxisId: 'x1',
             yAxisId: 'y1',
             borderWidth: 2,
-            borderColor: '#f2bf07',
+            borderColor: styles["colors-earthquake"],
             pointRadius: 2,
-            data: earthquake
+            data: this.earthquake
           },
           {
             label: this.translate.get('legend.wind')['value'],
             xAxisId: 'x1',
             yAxisId: 'y1',
             borderWidth: 2,
-            borderColor: '#d3ede5',
+            borderColor: styles["colors-wind"],
             pointRadius: 2,
-            data: wind
+            data: this.wind
           },
           {
             label: this.translate.get('legend.volcano')['value'],
             xAxisId: 'x1',
             yAxisId: 'y1',
             borderWidth: 2,
-            borderColor: '#a10202',
+            borderColor: styles["colors-volcano"],
             pointRadius: 2,
-            data: volcano
+            data: this.volcano
           },
           {
             label: this.translate.get('legend.fire')['value'],
             xAxisId: 'x1',
             yAxisId: 'y1',
             borderWidth: 2,
-            borderColor: '#f23a07',
+            borderColor: styles["colors-fire"],
             pointRadius: 2,
-            data: fire
+            data: this.fire
           }
         ]
       },
@@ -127,7 +134,7 @@ export class DisasterChartComponent implements OnInit, OnChanges {
         },
         elements: {
           line: {
-              tension: 0.2, // disables bezier curves
+              tension: 0.2
           }
         },
         legend: {
@@ -213,35 +220,6 @@ export class DisasterChartComponent implements OnInit, OnChanges {
         // Update date axis
         this.disasterChart.options.scales.xAxes[1].time.min = this.scaleLimits.min;
         this.disasterChart.options.scales.xAxes[1].time.max = this.scaleLimits.max;
-
-        for (var j in this.disastersData) {
-          for (var i in this.disastersData[j]) {
-            if (this.disastersData[j][i].key == 'flood') {
-              var flood = this.disastersData[j][i].data;
-              this.disasterChart.data.datasets[0].data = flood;
-            }
-            if (this.disastersData[j][i].key == 'haze') {
-              var haze = this.disastersData[j][i].data;
-              this.disasterChart.data.datasets[1].data = haze;
-            }
-            if (this.disastersData[j][i].key == 'earthquake') {
-              var earthquake = this.disastersData[j][i].data;
-              this.disasterChart.data.datasets[2].data = earthquake;
-            }
-            if (this.disastersData[j][i].key == 'wind') {
-              var wind = this.disastersData[j][i].data;
-              this.disasterChart.data.datasets[3].data = wind;
-            }
-            if (this.disastersData[j][i].key == 'volcano') {
-              var volcano = this.disastersData[j][i].data;
-              this.disasterChart.data.datasets[4].data = volcano;
-            }
-            if (this.disastersData[j][i].key == 'fire') {
-              var fire = this.disastersData[j][i].data;
-              this.disasterChart.data.datasets[5].data = fire;
-            }
-          }
-        } 
 
         this.disasterChart.update();
       }

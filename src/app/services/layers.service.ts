@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as styles from '../../styles.scss';
 
 @Injectable()
 export class LayersService {
@@ -23,18 +24,18 @@ export class LayersService {
           'match',
           ['get', 'disaster_type'],
           'flood',
-          '#31aade',
+          styles["colors-flood"],
           'haze',
-          '#99bfb3',
+          styles["colors-haze"],
           'earthquake',
-          '#f2bf07',
+          styles["colors-earthquake"],
           'wind',
-          '#d3ede5',
+          styles["colors-wind"],
           'volcano',
-          '#a10202',
+          styles["colors-volcano"],
           'fire',
-          '#f23a07',
-          /* other */ '#ccc'
+          styles["colors-fire"],
+          '#ccc'
           ],
         'circle-radius': 4,
         'circle-stroke-width': 1,
