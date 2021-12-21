@@ -76,6 +76,7 @@ export class ChartsComponent implements OnInit {
     let response = await(timeseries)
 
     for (const report of response) {
+      
       data.push({
         t: report.ts,
         y: report.count
@@ -93,7 +94,7 @@ export class ChartsComponent implements OnInit {
     this.loadData(this.floodsData, this.httpService.getTimeseries('floods', timePeriod))
     .catch(error => console.log(error));
     
-    this.httpService.getReportsArchive(this.timeservice.selectedDateRange, timePeriod)
+    this.httpService.getReportsArchive(timePeriod,'ID-JK')
     .then(geojsonData => {
       const dataTS = this.timeservice.dataAnalysis
       for (let i = 0; i < dataTS.length-1; i++) {
@@ -103,6 +104,7 @@ export class ChartsComponent implements OnInit {
           }
         }
       }
+      this.loadData(this.jakartaData, dataTS)
     })
     .catch(error => console.log(error));
   }
