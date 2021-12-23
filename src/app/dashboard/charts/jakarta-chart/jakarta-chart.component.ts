@@ -6,13 +6,13 @@ import { TimeService } from '../../../services/time.service';
 import settings from '../settings'
 
 @Component({
-  selector: 'app-activity-chart',
-  templateUrl: './activity-chart.component.html',
-  styleUrls: ['./activity-chart.component.scss']
+  selector: 'app-jakarta-chart',
+  templateUrl: './jakarta-chart.component.html',
+  styleUrls: ['./jakarta-chart.component.scss']
 })
-export class ActivityChartComponent implements OnInit, OnChanges {
-  activityChart: Chart;
-  @Input() reportsData: {t: string, y: number}[];
+export class JakartaChartComponent implements OnInit, OnChanges {
+  jakartaChart: Chart;
+  @Input() jakartaData: {t: string, y: number}[];
   @Input() floodsData: {t: string, y: number}[];
   @Input() scaleLimits: {max: number, min: number};
 
@@ -22,21 +22,21 @@ export class ActivityChartComponent implements OnInit, OnChanges {
   ) { }
 
   prepareCanvas() {
-    $('#activityCanvasWrapper').empty();
-    $('#activityCanvasWrapper').html(
-      '<canvas id="activityInset"></canvas>'
+    $('#jakartaCanvasWrapper').empty();
+    $('#jakartaCanvasWrapper').html(
+      '<canvas id="jakartaInset"></canvas>'
     );
 
-    const chart_ctx = $('#activityInset').get(0)['getContext']('2d');
-    chart_ctx.canvas.width = $('#activityCanvasWrapper').width();
-    chart_ctx.canvas.height = $('#activityCanvasWrapper').height();
+    const chart_ctx = $('#jakartaInset').get(0)['getContext']('2d');
+    chart_ctx.canvas.width = $('#jakartaCanvasWrapper').width();
+    chart_ctx.canvas.height = $('#jakartaCanvasWrapper').height();
 
     return chart_ctx;
   }
 
   ngOnInit() {
     const context = this.prepareCanvas();
-
+    
     const chartSettings = {
       type: 'line',
       data: {
@@ -49,8 +49,17 @@ export class ActivityChartComponent implements OnInit, OnChanges {
             borderColor: settings.border.color,
             backgroundColor: settings.backgroundColor.blue,
             pointRadius: settings.border.pointRadius,
-            data: this.reportsData
+            data: this.jakartaData
           },
+          {
+            label: this.translate.get('chart_legend.area_count')['value'],
+            xAxisId: 'x1',
+            yAxisId: 'y1',
+            borderWidth: settings.border.width,
+            borderColor: settings.border.colorFlood,
+            pointRadius: settings.border.pointRadius,
+            data: this.floodsData
+          }
         ]
       },
       options: {
@@ -127,21 +136,21 @@ export class ActivityChartComponent implements OnInit, OnChanges {
       }
     };
 
-    this.activityChart = new Chart(context, chartSettings);
+    this.jakartaChart = new Chart(context, chartSettings);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('scaleLimits')) {
-      if (changes.scaleLimits.currentValue && this.activityChart) {
+      if (changes.scaleLimits.currentValue && this.jakartaChart) {
         // Update time axis
-        this.activityChart.options.scales.xAxes[0].time.min = this.scaleLimits.min;
-        this.activityChart.options.scales.xAxes[0].time.max = this.scaleLimits.max;
+        this.jakartaChart.options.scales.xAxes[0].time.min = this.scaleLimits.min;
+        this.jakartaChart.options.scales.xAxes[0].time.max = this.scaleLimits.max;
 
         // Update date axis
-        this.activityChart.options.scales.xAxes[1].time.min = this.scaleLimits.min;
-        this.activityChart.options.scales.xAxes[1].time.max = this.scaleLimits.max;
+        this.jakartaChart.options.scales.xAxes[1].time.min = this.scaleLimits.min;
+        this.jakartaChart.options.scales.xAxes[1].time.max = this.scaleLimits.max;
 
-        this.activityChart.update();
+        this.jakartaChart.update();
       }
     }
   }

@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import * as topojson from 'topojson-client';
+import { TimeService } from './time.service';
+import { data } from 'jquery/dist/jquery.slim';
 
 @Injectable()
 export class HttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private timeservice: TimeService) { }
 
   getFloodAreas(city: string): Promise<{
     type: string,
@@ -41,7 +43,7 @@ export class HttpService {
   getReportsArchive(timePeriod: {
     start: string,
     end: string
-  }): Promise<{
+  }, region: string): Promise<{
     type: string,
     features: {
       type: string,
@@ -49,13 +51,15 @@ export class HttpService {
         type: string,
         coordinates: number[]
       },
-      properties: object
+      properties: {
+        created_at: string
+      }
     }[]
   }> {
     const endpoint = environment.data_server + 'reports/archive?start='
       + timePeriod.start + '&end='
       + timePeriod.end + '&admin='
-      + environment.instance_region;
+      + region;
 
     return new Promise((resolve, reject) => {
       this.http
@@ -85,7 +89,7 @@ export class HttpService {
     const endpoint = environment.data_server + 'floods/archive?start='
       + timePeriod.start + '&end='
       + timePeriod.end + '&admin='
-      + environment.instance_region;
+      + environment.instance_region[12];
 
     return new Promise((resolve, reject) => {
       this.http
@@ -111,8 +115,7 @@ export class HttpService {
     }[]> {
     const endpoint = environment.data_server + dataType + '/timeseries?start='
       + timePeriod.start + '&end='
-      + timePeriod.end + '&admin='
-      + environment.instance_region;
+      + timePeriod.end;
 
     return new Promise((resolve, reject) => {
       this.http
