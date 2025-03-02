@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/urbanriskmap/cognicity-analytics.svg?branch=dev)](https://travis-ci.org/urbanriskmap/cognicity-analytics)
 
-# cognicity-analytics
+# sitioss-analytics
 Web dashboard for analyzing reports and flooded areas in a given time window
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
 
