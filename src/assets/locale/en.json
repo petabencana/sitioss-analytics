@@ -12,25 +12,29 @@
   "end_date": "End Date",
   "legend": {
     "title": "Legend",
-    "report": "Flood report",
-    "level_1": "Alert Level 1",
-    "level_2": "Alert Level 2",
-    "level_3": "Alert Level 3",
-    "level_4": "Alert Level 4"
+    "flood": "Flood report",
+    "wind": "Wind report",
+    "haze": "Haze report",
+    "fire": "Fire report",
+    "earthquake": "Earthquake report",
+    "volcano": "Volcano report",
+    "search": "Search location"
   },
   "chart_menu": {
+    "details": "Analytic Disaster Reports",
     "activity": "Reporting activity",
     "source": "Reporting source",
+    "disaster": "Disaster Reporting",
     "generate_button": "Generate Report"
   },
   "note": "Note: The number of flooded areas does not mean the whole area is flooded. It shows that there are floods happening within those counted areas",
   "chart_legend": {
-    "count": "Report count/hour",
+    "count": "All Report count/hour",
     "area_count": "Flooded affected RW/hour",
     "generate_button": "Generate Report"
   },
   "stats": {
-    "reports": "Reports",
+    "reports": "All Reports",
     "areas": "Flood affected areas"
   },
   "report": {
