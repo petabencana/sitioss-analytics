@@ -27,3 +27,19 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Recent Development Timeline
+
+- **2025**: Updated documentation and licensing
+- **2021**: Enhanced analytics capabilities with:
+  - Interactive disaster charts and report maps
+  - Expansion panels for analytics dashboard
+  - Improved visualizations with tension bezier lines
+  - Added Mapbox search functionality
+  - Implemented multilingual support
+  - Optimized UI elements including legends and navbar
+- **2020-2021**: Platform maintenance including:
+  - URL parameter fixes
+  - Mapbox API and styling updates
+  - Regional code updates for Jakarta
+  - Package dependencies maintenance
